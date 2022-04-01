@@ -1,0 +1,38 @@
+{
+  "name": "server_friendle",
+  "version": "1.0.0",
+  "description": "Server for Friendle",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "server": "node index.js",
+    "dev": "nodemon index.js",
+    "migrate": "knex migrate:latest --knexfile knex_db/knexfile.js",
+    "seed": "knex seed:run --knexfile knex_db/knexfile.js",
+    "rollback": "knex migrate:rollback --knexfile knex_db/knexfile.js",
+    "down": "knex migrate:down --knexfile knex_db/knexfile.js",
+    "restart": "npm run down && npm run migrate && npm run start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^1.0.4",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "node": "^17.7.2",
+    "node-schedule": "^2.1.0",
+    "seedrandom": "^3.0.5",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
