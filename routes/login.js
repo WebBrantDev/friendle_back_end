@@ -22,7 +22,6 @@ router.post("/", (req, res) => {
             expiresIn: "10d",
           });
           console.log(`Token: ${token}`);
-          res.header.add("Access-Control-Allow-Origin", "https://friendle.one");
           return res.json({ token });
         } else {
           return res.status(401).json({ error: "Invalid password" });
