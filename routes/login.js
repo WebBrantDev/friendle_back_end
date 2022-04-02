@@ -23,20 +23,10 @@ router.post("/", (req, res) => {
           console.log(`Token: ${token}`);
           return res.json({ token });
         } else {
-          return (
-            res
-              // .header("Access-Control-Allow-Origin", "*")
-              .status(401)
-              .json({ error: "Invalid password" })
-          );
+          return res.status(401).json({ error: "Invalid password" });
         }
       } else {
-        return (
-          res
-            // .header("Access-Control-Allow-Origin", "*")
-            .status(404)
-            .json({ error: "User doesn't exist" })
-        );
+        return res.status(404).json({ error: "User doesn't exist" });
       }
     });
 });
