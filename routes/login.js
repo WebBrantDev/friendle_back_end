@@ -8,13 +8,13 @@ const bcrypt = require("bcryptjs");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/", (req, res) => {
+  console.log(req.body);
   const { email, password } = req.body;
   knex("users")
     .select("id", "username", "team_id", "password")
     .where({ email })
     .then((user) => {
       const currentUser = user[0];
-      console.log(currentUser);
       if (currentUser) {
         if (bcrypt.compareSync(password, currentUser.password)) {
           const { username, id, team_id } = currentUser;
@@ -24,10 +24,16 @@ router.post("/", (req, res) => {
           console.log(`Token: ${token}`);
           return res.json({ token });
         } else {
-          return res.status(401).json({ error: "Invalid password" });
+          return res
+            .header("Access-Control-Allow-Origin", "*")
+            .status(401)
+            .json({ error: "Invalid password" });
         }
       } else {
-        return res.status(404).json({ error: "User doesn't exist" });
+        return res
+          .header("Access-Control-Allow-Origin", "*")
+          .status(404)
+          .json({ error: "User doesn't exist" });
       }
     });
 });
