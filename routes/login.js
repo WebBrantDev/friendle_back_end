@@ -8,11 +8,10 @@ const bcrypt = require("bcryptjs");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/", (req, res) => {
-  console.log(req.body);
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   knex("users")
     .select("id", "username", "team_id", "password")
-    .where({ email })
+    .where({ username })
     .then((user) => {
       const currentUser = user[0];
       if (currentUser) {
