@@ -6,11 +6,10 @@ router.post("/", (req, res) => {
     .select("username")
     .where({ username: req.body.username })
     .then((arr) => {
-      console.log(arr.length);
       if (arr.length === 1) {
-        return res.json({ isUsed: true });
+        return res.status(400).json({ isUsed: true });
       } else {
-        return res.json({ isUsed: false });
+        return res.status(200).json({ isUsed: false });
       }
     })
     .catch((err) => {

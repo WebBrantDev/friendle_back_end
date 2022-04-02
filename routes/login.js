@@ -16,8 +16,8 @@ router.post("/", (req, res) => {
       const currentUser = user[0];
       console.log(currentUser);
       if (currentUser) {
-        if (bcrypt.compareSync(password, user[0].password)) {
-          const { username, id, team_id } = user[0];
+        if (bcrypt.compareSync(password, currentUser.password)) {
+          const { username, id, team_id } = currentUser;
           const token = jwt.sign({ username, id, team_id }, JWT_SECRET, {
             expiresIn: "10d",
           });
@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
           res.header.add("Access-Control-Allow-Origin", "https://friendle.one");
           return res.json({ token });
         } else {
-          return res.send("nope");
+          return res.status(401).json({ error: "Invalid password" });
         }
       } else {
         return res.status(404).json({ error: "User doesn't exist" });
