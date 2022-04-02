@@ -8,14 +8,17 @@ router.post("/", (req, res) => {
   if (game_day && num_of_guesses && guess_pattern && user_id && team_id) {
     knex("entries")
       .insert({ game_day, num_of_guesses, guess_pattern, user_id, team_id })
-      .then((id) => {
-        // return res.json({ thing: id });
-        res.status(201).json({ game_day, num_of_guesses, guess_pattern });
+      .then(() => {
+        return res
+          .status(201)
+          .json({ game_day, num_of_guesses, guess_pattern });
       })
       .catch((err) => {
         console.log(err);
-        return res.json({ msg: "Error" });
+        return res.status(500).json({ error: "Server error" });
       });
+  } else {
+    return res.status(400).json({ error: "Incomplete data" });
   }
 });
 
