@@ -14,6 +14,6 @@ const wordPicker = () => {
   return;
 };
 
-const randomWordPickerJob = schedule.scheduleJob("*/10 * * * 0-6", wordPicker);
+const randomWordPickerJob = schedule.scheduleJob("0 0 * * 0-6", wordPicker);
 
 module.exports = randomWordPickerJob;

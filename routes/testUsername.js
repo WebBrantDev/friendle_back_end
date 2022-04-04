@@ -6,8 +6,8 @@ router.post("/", (req, res) => {
     .select("username")
     .where({ username: req.body.username })
     .then((arr) => {
-      if (arr.length === 1) {
-        return res.status(400).json({ isUsed: true });
+      if (arr.length >= 1) {
+        return res.json({ isUsed: true });
       } else {
         return res.status(200).json({ isUsed: false });
       }
