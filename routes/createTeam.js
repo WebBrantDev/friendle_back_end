@@ -1,13 +1,16 @@
 const router = require("express").Router();
 const knex = require("knex")(require("../knex_db/knexfile"));
+const authenticate = require("../middleware/authenticate");
+const wordpicker = require("../utils/wordPicker");
 
-router.post("/", (req, res) => {
+router.post("/", authenticate, (req, res) => {
   const data = req.body;
   const game_type = data.game_type || "default";
   const { user_id, team_name } = data;
+  const daily_word = wordpicker.singleWord();
   if (user_id && team_name) {
     knex("teams")
-      .insert({ game_type, team_name })
+      .insert({ game_type, team_name, daily_word })
       .then((team_id) => {
         knex("users")
           .where({ id: user_id })
@@ -17,6 +20,7 @@ router.post("/", (req, res) => {
               .select("id", "game_type", "team_name")
               .where({ id: team_id[0] })
               .then((user) => {
+                console.log(user[0]);
                 return res.json(user[0]);
               });
           });
