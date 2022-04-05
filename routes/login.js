@@ -23,7 +23,6 @@ router.post("/", (req, res) => {
             .then((user) => {
               currentUser.team_name = user[0].team_name;
               if (bcrypt.compareSync(password, currentUser.password)) {
-                console.log("hello");
                 const { username, id, team_id, team_name } = currentUser;
                 const token = jwt.sign(
                   { username, id, team_id, team_name },
@@ -39,7 +38,6 @@ router.post("/", (req, res) => {
             });
         } else {
           if (bcrypt.compareSync(password, currentUser.password)) {
-            console.log("hello");
             const { username, id, team_id, team_name } = currentUser;
             const token = jwt.sign(
               { username, id, team_id, team_name },
