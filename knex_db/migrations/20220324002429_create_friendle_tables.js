@@ -5,6 +5,7 @@ exports.up = function (knex) {
       table.string("daily_word", 20);
       table.string("game_type", 30).defaultTo("default");
       table.string("team_name", 50).notNullable();
+      table.integer("current_game_day", 15).notNullable().defaultTo(290);
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
@@ -43,7 +44,6 @@ exports.up = function (knex) {
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
       table.integer("game_day", 15).notNullable();
-      table.integer("current_game_day", 15).notNullable().defaultTo(289);
       table.integer("num_of_guesses", 5).notNullable();
       table.string("guess_pattern", 50).notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());

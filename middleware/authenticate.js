@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const knex = require("knex")(require("../knex_db/knexfile"));
 
 const authenticate = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -10,7 +11,15 @@ const authenticate = (req, res, next) => {
       return res.status(401).send("Invalid auth token");
     }
     req.user = decoded;
-    next();
+    if (!req.user.team_id) {
+      knex("users")
+        .select("team_id")
+        .where({ id: req.user.id })
+        .then((data) => {
+          req.user.team_id = data[0].team_id;
+          next();
+        });
+    }
   });
 };
 

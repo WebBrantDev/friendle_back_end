@@ -8,13 +8,13 @@ exports.randomWordPickerJob = schedule.scheduleJob(
 );
 
 exports.gameDayIncrementorJob = schedule.scheduleJob("0 0 * * *", () => {
-  knex("entries")
+  knex("teams")
     .select("current_game_day")
     .limit(1)
     .then((data) => {
       const current_game_day = data[0].current_game_day + 1;
       console.log({ current_game_day });
-      knex("entries")
+      knex("teams")
         .update({ current_game_day })
         .then(() => {})
         .catch(() => {

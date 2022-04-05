@@ -7,48 +7,17 @@ router.post("/", (req, res) => {
 
   if (game_day && num_of_guesses && guess_pattern && user_id && team_id) {
     knex("entries")
-      .select("current_game_day")
-      .limit(1)
-      .then((data) => {
-        if (data.length) {
-          const current_game_day = data[0].current_game_day;
-          knex("entries")
-            .insert({
-              game_day,
-              num_of_guesses,
-              guess_pattern,
-              user_id,
-              team_id,
-              current_game_day,
-            })
-            .then(() => {
-              return res
-                .status(201)
-                .json({ game_day, num_of_guesses, guess_pattern });
-            })
-            .catch((err) => {
-              console.log(err);
-              return res.status(500).json({ error: "Server error" });
-            });
-        } else {
-          knex("entries")
-            .insert({
-              game_day,
-              num_of_guesses,
-              guess_pattern,
-              user_id,
-              team_id,
-            })
-            .then(() => {
-              return res
-                .status(201)
-                .json({ game_day, num_of_guesses, guess_pattern });
-            })
-            .catch((err) => {
-              console.log(err);
-              return res.status(500).json({ error: "Server error" });
-            });
-        }
+      .insert({
+        game_day,
+        num_of_guesses,
+        guess_pattern,
+        user_id,
+        team_id,
+      })
+      .then(() => {
+        return res
+          .status(201)
+          .json({ game_day, num_of_guesses, guess_pattern });
       })
       .catch((err) => {
         console.log(err);
