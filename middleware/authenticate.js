@@ -12,6 +12,7 @@ const authenticate = (req, res, next) => {
     }
     req.user = decoded;
     if (!req.user.team_id) {
+      console.log("HELLOOOO");
       knex("users")
         .select("team_id")
         .where({ id: req.user.id })
@@ -19,6 +20,8 @@ const authenticate = (req, res, next) => {
           req.user.team_id = data[0].team_id;
           next();
         });
+    } else {
+      next();
     }
   });
 };

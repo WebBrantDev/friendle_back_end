@@ -16,7 +16,7 @@ router.post("/", (req, res) => {
         "u.username"
       )
       .where({ "e.team_id": team_id })
-      // .where({ "e.game_day": game_day })
+      .where({ "e.game_day": current_game_day })
       .then((data) => {
         // console.log(data);
         // const current_game_day =

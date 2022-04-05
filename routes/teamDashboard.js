@@ -15,6 +15,9 @@ router.get("/", authenticate, (req, res) => {
         console.log("USER TEAM ID: ", currentUser);
         req.user.team_id = currentUser.team_id;
         return res.status(200).json(req.user);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   } else {
     console.log(username);
@@ -30,6 +33,9 @@ router.get("/", authenticate, (req, res) => {
         req.user.current_game_day = currentUser.current_game_day;
         console.log("THING", req.user);
         return res.status(200).json(req.user);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 });
