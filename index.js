@@ -9,15 +9,15 @@ const loginRoute = require("./routes/login");
 const createTeamRoute = require("./routes/createTeam");
 const addEntryRoute = require("./routes/addEntry");
 const teamDashboardRoute = require("./routes/teamDashboard");
-const joinTeamRoute = require("./routes/joinTeam");
 const testUsernameRoute = require("./routes/testUsername");
 const pullTeamDataRoute = require("./routes/pullTeamData");
-const randomWordPickerJob = require("./utils/wordPicker");
+const jobs = require("./utils/cronJobs");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-randomWordPickerJob;
+jobs.randomWordPickerJob;
+jobs.gameDayIncrementorJob;
 
 app.use(express.json());
 app.use(cors());
@@ -28,7 +28,6 @@ app.use("/login", loginRoute);
 app.use("/createTeam", createTeamRoute);
 app.use("/addEntry", addEntryRoute);
 app.use("/teamDashboard", teamDashboardRoute);
-app.use("/joinTeam", joinTeamRoute);
 app.use("/testUsername", testUsernameRoute);
 app.use("/pullTeamData", pullTeamDataRoute);
 

@@ -15,15 +15,43 @@ router.post("/", (req, res) => {
     .then((user) => {
       const currentUser = user[0];
       if (currentUser) {
-        if (bcrypt.compareSync(password, currentUser.password)) {
-          const { username, id, team_id } = currentUser;
-          const token = jwt.sign({ username, id, team_id }, JWT_SECRET, {
-            expiresIn: "10d",
-          });
-          console.log(`Token: ${token}`);
-          return res.json({ token });
+        if (currentUser.team_id) {
+          knex("teams as t")
+            .join("users as u", "u.team_id", "t.id")
+            .select("t.team_name")
+            .where({ "u.team_id": currentUser.team_id })
+            .then((user) => {
+              currentUser.team_name = user[0].team_name;
+              if (bcrypt.compareSync(password, currentUser.password)) {
+                console.log("hello");
+                const { username, id, team_id, team_name } = currentUser;
+                const token = jwt.sign(
+                  { username, id, team_id, team_name },
+                  JWT_SECRET,
+                  {
+                    expiresIn: "10d",
+                  }
+                );
+                return res.json({ token });
+              } else {
+                return res.status(401).json({ error: "Invalid password" });
+              }
+            });
         } else {
-          return res.status(401).json({ error: "Invalid password" });
+          if (bcrypt.compareSync(password, currentUser.password)) {
+            console.log("hello");
+            const { username, id, team_id, team_name } = currentUser;
+            const token = jwt.sign(
+              { username, id, team_id, team_name },
+              JWT_SECRET,
+              {
+                expiresIn: "10d",
+              }
+            );
+            return res.json({ token });
+          } else {
+            return res.status(401).json({ error: "Invalid password" });
+          }
         }
       } else {
         return res.status(404).json({ error: "User doesn't exist" });
@@ -32,3 +60,15 @@ router.post("/", (req, res) => {
 });
 
 module.exports = router;
+
+// knex("entries as e")
+//       .join("users as u", "u.id", "e.user_id")
+//       .select(
+//         "e.game_day",
+//         "e.num_of_guesses",
+//         "e.guess_pattern",
+//         "e.created_at",
+//         "e.team_id",
+//         "u.username"
+//       )
+//       .where({ "e.team_id": team_id })

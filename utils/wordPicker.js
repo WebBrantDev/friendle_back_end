@@ -1,19 +1,20 @@
-const schedule = require("node-schedule");
 const wordList = require("./wordList");
 const knex = require("knex")(require("../knex_db/knexfile"));
 
-const wordPicker = () => {
+exports.singleWord = () => {
+  const daily_word = wordList[Math.floor(Math.random() * wordList.length)];
+  return daily_word;
+};
+
+exports.wordPicker = () => {
   const daily_word = wordList[Math.floor(Math.random() * wordList.length)];
   console.log(daily_word);
   knex("teams")
     .update({ daily_word })
-    .then(() => {})
+    .then(() => {
+      return;
+    })
     .catch((err) => {
       console.log(err);
     });
-  return;
 };
-
-const randomWordPickerJob = schedule.scheduleJob("0 0 * * 0-6", wordPicker);
-
-module.exports = randomWordPickerJob;

@@ -1,7 +1,3 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 exports.up = function (knex) {
   return knex.schema
     .createTable("teams", (table) => {
@@ -41,11 +37,13 @@ exports.up = function (knex) {
       table
         .integer("team_id")
         .unsigned()
+        .notNullable()
         .references("id")
         .inTable("teams")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
       table.integer("game_day", 15).notNullable();
+      table.integer("current_game_day", 15).notNullable().defaultTo(289);
       table.integer("num_of_guesses", 5).notNullable();
       table.string("guess_pattern", 50).notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
