@@ -4,6 +4,7 @@ const authenticate = require("../middleware/authenticate");
 
 router.get("/", authenticate, (req, res) => {
   const { username } = req.user;
+  console.log("HELLO: ", req.user);
   if (!req.user.team_id) {
     knex("users")
       .select("team_id")
@@ -23,6 +24,7 @@ router.get("/", authenticate, (req, res) => {
       .where({ "u.username": username })
       .then((user) => {
         const currentUser = user[0];
+        console.log("CURRENT USER: ", currentUser);
         req.user.team_name = currentUser.team_name;
         req.user.daily_word = currentUser.daily_word;
         req.user.current_game_day = currentUser.current_game_day;
