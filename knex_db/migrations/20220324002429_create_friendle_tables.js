@@ -5,7 +5,7 @@ exports.up = function (knex) {
       table.string("daily_word", 20);
       table.string("game_type", 30).defaultTo("default");
       table.string("team_name", 50).notNullable();
-      table.integer("current_game_day", 15).notNullable().defaultTo(291);
+      table.integer("current_game_day", 15).notNullable().defaultTo(292);
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
