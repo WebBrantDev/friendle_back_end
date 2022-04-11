@@ -3,11 +3,11 @@ const wordpicker = require("./wordPicker");
 const knex = require("knex")(require("../knex_db/knexfile"));
 
 exports.randomWordPickerJob = schedule.scheduleJob(
-  "16 6 * * *",
+  "31 7 * * *",
   wordpicker.wordPicker
 );
 
-exports.gameDayIncrementorJob = schedule.scheduleJob("16 6 * * *", () => {
+exports.gameDayIncrementorJob = schedule.scheduleJob("31 7 * * *", () => {
   knex("teams")
     .select("current_game_day")
     .limit(1)
