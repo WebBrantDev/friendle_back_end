@@ -11,6 +11,7 @@ const addEntryRoute = require("./routes/addEntry");
 const teamDashboardRoute = require("./routes/teamDashboard");
 const testUsernameRoute = require("./routes/testUsername");
 const pullTeamDataRoute = require("./routes/pullTeamData");
+const getDailyWordRoute = require("./routes/getDailyWord");
 const jobs = require("./utils/cronJobs");
 
 const app = express();
@@ -30,6 +31,7 @@ app.use("/addEntry", addEntryRoute);
 app.use("/teamDashboard", teamDashboardRoute);
 app.use("/testUsername", testUsernameRoute);
 app.use("/pullTeamData", pullTeamDataRoute);
+app.use("/getDailyWord", getDailyWordRoute);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("../client_friendle/build"));
